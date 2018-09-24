@@ -6,6 +6,8 @@ phases:
 
       # Upgrade AWS CLI to the latest version
       - pip install --upgrade awscli
+      - pip install requests -t .
+      - pip install xmltodict -t .
 
   pre_build:
     commands:
