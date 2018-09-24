@@ -10,12 +10,15 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 def handler(event, context):
-    # data = event['body']
+    data = event['body']
     
-    # msg = ''
-    # if data['name'] != os.getenv('BOT_NAME'):
-    #     msg = get_res(data['text'].lower())
-    # send_message(msg)
+    logger.info('Recieved {}'.format(data))
+    
+    
+    msg = ''
+    if data['name'] != os.getenv('BOT_NAME'):
+        msg = get_res(data['text'].lower())
+    send_message(msg)
 
 
     return {'statusCode': 200,
