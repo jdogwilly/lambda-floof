@@ -31,6 +31,7 @@ Resources:
         Variables:
           name: Floof Bot
           GROUPME_BOT_ID: 587721b6440c35e69e74c2652e
+          BOT_NAME: Lambda Floof
       Events:
         PostEvent:
           Type: Api

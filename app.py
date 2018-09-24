@@ -10,7 +10,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 def handler(event, context):
-    data = event['body']
+    data = json.load(event['body'])
     
     logger.info('Recieved {}'.format(data))
     
