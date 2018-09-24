@@ -10,34 +10,16 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 def handler(event, context):
-    data = json.load(event['body'])
-    
+    data = json.load(event['body']) 
     logger.info('Recieved {}'.format(data))
-    
-    
     msg = ''
     if data['name'] != os.getenv('BOT_NAME'):
         msg = get_res(data['text'].lower())
     send_message(msg)
 
-
     return {'statusCode': 200,
             'body': 'OK',
             'headers': {'Content-Type': 'application/json'}}
-
-
-# Webhook for all requests
-def webhook():
-  data = request.get_json()
-  logger.info('Recieved {}'.format(data))
-  
-  msg = ''
-  if data['name'] != os.getenv('BOT_NAME'):
-    msg = get_res(data['text'].lower())
-  send_message(msg)
-  return "ok", 200
-
-
 
 # Choose response based on keywords
 def get_res(text):
@@ -47,8 +29,8 @@ def get_res(text):
     lis = [get_random('dog')]
   if 'cloud' in text or 'polar bear' in text:
     return get_res('samoyed')
-#   if 'cat' in text or 'meow' in text:
-#     lis = [get_cat()] # [get_random('cat')]
+  if 'cat' in text or 'meow' in text:
+    lis = [get_cat()] # [get_random('cat')]
   if 'pitbull' in text or 'pit bull' in text:
     lis = ['https://www.thefamouspeople.com/profiles/images/og-pitbull-6049.jpg']
   if 'floof' in text:
@@ -96,7 +78,6 @@ def get_random(switch, subswitch = ''):
   html = requests.get(link).text
   data = json.loads(html)
   reto = data[key]
-  # if (switch == 'cat' or switch == 'dog' switch == ''):
   reto.replace('\\/', '/')
   if reto.endswith('jpg') or reto.endswith('png') or reto.endswith('gif'):
     return reto
@@ -104,8 +85,8 @@ def get_random(switch, subswitch = ''):
     return get_random(link)
   
 # Get random cat
-# def get_cat():
-#   url = 'http://thecatapi.com/api/images/get?format=xml&results_per_page=1&type=' + random.choice(['jpg', 'gif', 'png'])
-#   r = requests.get(url)
-#   doc = xmltodict.parse(r.content)
-#   return str(doc['response']['data']['images']['image']['url'])
+def get_cat():
+  url = 'http://thecatapi.com/api/images/get?format=xml&results_per_page=1&type=' + random.choice(['jpg', 'gif', 'png'])
+  r = requests.get(url)
+  doc = xmltodict.parse(r.content)
+  return str(doc['response']['data']['images']['image']['url'])
