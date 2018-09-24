@@ -4,7 +4,7 @@ import random
 import sys
 import requests
 import logging
-# import xmltodict
+import xmltodict
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
