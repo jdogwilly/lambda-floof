@@ -10,7 +10,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 def handler(event, context):
-    data = json.load(event['body']) 
+    data = json.loads(event['body']) 
     logger.info('Recieved {}'.format(data))
     msg = ''
     if data['name'] != os.getenv('BOT_NAME'):
