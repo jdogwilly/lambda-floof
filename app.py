@@ -9,17 +9,21 @@ import xmltodict
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+#Lambda entry point. Filters out 
 def handler(event, context):
-    data = json.loads(event['body']) 
-    logger.info('Recieved {}'.format(data))
-    msg = ''
-    if data['name'] != os.getenv('BOT_NAME'):
-        msg = get_res(data['text'].lower())
-    send_message(msg)
+  data = json.loads(event['body']) 
+  logger.info('Recieved {}'.format(data))
+  if data['name'] == os.getenv('BOT_NAME'):
+    return {
+      'statusCode': 200,
+      'body': json.dumps({'status':'ok'}),
+      'headers': {'Content-Type': 'application/json'}}
 
-    return {'statusCode': 200,
-            'body': 'OK',
-            'headers': {'Content-Type': 'application/json'}}
+  send_message(get_res(data['text'].lower()))
+  return {
+    'statusCode': 200,
+    'body': json.dumps({'status':'ok'}),
+    'headers': {'Content-Type': 'application/json'}}
 
 # Choose response based on keywords
 def get_res(text):
@@ -30,7 +34,7 @@ def get_res(text):
   if 'cloud' in text or 'polar bear' in text:
     return get_res('samoyed')
   if 'cat' in text or 'meow' in text:
-    lis = [get_cat()] # [get_random('cat')]
+    lis = [get_cat()]
   if 'pitbull' in text or 'pit bull' in text:
     lis = ['https://www.thefamouspeople.com/profiles/images/og-pitbull-6049.jpg']
   if 'floof' in text:
