@@ -8,6 +8,7 @@ phases:
       - pip install --upgrade awscli
       - pip install requests -t .
       - pip install xmltodict -t .
+      - pip install aws-xray-sdk -t .
 
   pre_build:
     commands:

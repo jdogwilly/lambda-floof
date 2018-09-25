@@ -9,6 +9,11 @@ import xmltodict
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
+
+patch_all()
+
 #Lambda entry point. Filters out 
 def handler(event, context):
   data = json.loads(event['body']) 
