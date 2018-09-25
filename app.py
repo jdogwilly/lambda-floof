@@ -28,7 +28,6 @@ def handler(event, context):
 # Choose response based on keywords
 def get_res(text):
   lis = []
-  breeds = json.loads(requests.get('https://dog.ceo/api/breeds/list').text)['message']
   if 'dog' in text or 'pup' in text or 'good boy' in text or 'woof' in text:
     lis = [get_random('dog')]
   if 'cloud' in text or 'polar bear' in text:
@@ -42,6 +41,7 @@ def get_res(text):
   if 'mop' in text:
     return get_res('komondor')
   else:
+    breeds = json.loads(requests.get('https://dog.ceo/api/breeds/list').text)['message']
     switch = ''
     for breed in breeds:
       if breed in text:
