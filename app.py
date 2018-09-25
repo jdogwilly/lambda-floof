@@ -7,7 +7,7 @@ import logging
 import xmltodict
 
 from aws_xray_sdk.core import xray_recorder
-form aws_xray_sdk.core import patch_all
+from aws_xray_sdk.core import patch_all
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
