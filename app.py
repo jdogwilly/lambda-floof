@@ -6,13 +6,10 @@ import requests
 import logging
 import xmltodict
 
+from aws_xray_sdk.core import xray_recorder
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.core import patch_all
-
-patch_all()
 
 #Lambda entry point. Filters out 
 def handler(event, context):
@@ -72,6 +69,7 @@ def send_message(msg):
   
 # Get random dog or cat
 def get_random(switch, subswitch = ''):
+  subsegment = xray_recorder.begin_subsegment('get_random')
   if (switch == 'dog'):
     link = 'https://dog.ceo/api/breeds/image/random'
     key = 'message'
@@ -84,11 +82,14 @@ def get_random(switch, subswitch = ''):
     else: # sub-breed
       link = 'https://dog.ceo/api/breed/' + switch + '/' + subswitch + '/images/random'
     key = 'message'
+  subsegment2 = xray_recorder.begin_subsegment('request')
   html = requests.get(link).text
+  xray_recorder.end_subsegment()
   data = json.loads(html)
   reto = data[key]
   reto.replace('\\/', '/')
   if reto.endswith('jpg') or reto.endswith('png') or reto.endswith('gif'):
+    xray_recorder.end_subsegment()
     return reto
   else:
     return get_random(link)
