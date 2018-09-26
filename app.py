@@ -6,7 +6,7 @@ import requests
 import logging
 import xmltodict
 
-from aws_xray_sdk.core import xray_recorder
+# from aws_xray_sdk.core import xray_recorder
 # from aws_xray_sdk.core import patch
 # patch(["requests"])
 
@@ -30,7 +30,7 @@ def handler(event, context):
     'headers': {'Content-Type': 'application/json'}}
 
 # Choose response based on keywords
-@xray_recorder.capture('get_res')
+# @xray_recorder.capture('get_res')
 def get_res(text):
   xray_recorder.begin_subsegment('get res')
   lis = []
@@ -73,7 +73,7 @@ def send_message(msg):
   requests.post(url, data)
   
 # Get random dog or cat
-@xray_recorder.capture('get_random')
+# @xray_recorder.capture('get_random')
 def get_random(switch, subswitch = ''):
   subsegment = xray_recorder.begin_subsegment('get_random')
   if (switch == 'dog'):
