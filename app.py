@@ -6,15 +6,15 @@ import requests
 import logging
 import xmltodict
 
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.core import patch_all
+# from aws_xray_sdk.core import xray_recorder
+# from aws_xray_sdk.core import patch_all
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 #Lambda entry point. Filters out 
 def handler(event, context):
-  patch_all()
+  # patch_all()
   data = json.loads(event['body']) 
   logger.info('Recieved {}'.format(data))
   if data['name'] == os.getenv('BOT_NAME'):
