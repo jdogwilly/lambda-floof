@@ -30,7 +30,9 @@ def handler(event, context):
     'headers': {'Content-Type': 'application/json'}}
 
 # Choose response based on keywords
+@xray_recorder.capture('get_res')
 def get_res(text):
+  xray_recorder.begin_subsegment('get res')
   lis = []
   if 'dog' in text or 'pup' in text or 'good boy' in text or 'woof' in text:
     lis = [get_random('dog')]
@@ -60,6 +62,7 @@ def get_res(text):
           lis = [get_random(breed)]
   return random.choice(lis)
 
+
 # Send the chosen message to the chat
 def send_message(msg):
   url  = 'https://api.groupme.com/v3/bots/post'
@@ -70,6 +73,7 @@ def send_message(msg):
   requests.post(url, data)
   
 # Get random dog or cat
+@xray_recorder.capture('get_random')
 def get_random(switch, subswitch = ''):
   subsegment = xray_recorder.begin_subsegment('get_random')
   if (switch == 'dog'):
@@ -84,14 +88,11 @@ def get_random(switch, subswitch = ''):
     else: # sub-breed
       link = 'https://dog.ceo/api/breed/' + switch + '/' + subswitch + '/images/random'
     key = 'message'
-  subsegment2 = xray_recorder.begin_subsegment('request')
   html = requests.get(link).text
-  xray_recorder.end_subsegment()
   data = json.loads(html)
   reto = data[key]
   reto.replace('\\/', '/')
   if reto.endswith('jpg') or reto.endswith('png') or reto.endswith('gif'):
-    xray_recorder.end_subsegment()
     return reto
   else:
     return get_random(link)
