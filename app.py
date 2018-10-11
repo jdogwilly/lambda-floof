@@ -32,7 +32,7 @@ def handler(event, context):
 # Choose response based on keywords
 # @xray_recorder.capture('get_res')
 def get_res(text):
-  xray_recorder.begin_subsegment('get res')
+  # xray_recorder.begin_subsegment('get res')
   lis = []
   if 'dog' in text or 'pup' in text or 'good boy' in text or 'woof' in text:
     lis = [get_random('dog')]
@@ -75,7 +75,7 @@ def send_message(msg):
 # Get random dog or cat
 # @xray_recorder.capture('get_random')
 def get_random(switch, subswitch = ''):
-  subsegment = xray_recorder.begin_subsegment('get_random')
+  # subsegment = xray_recorder.begin_subsegment('get_random')
   if (switch == 'dog'):
     link = 'https://dog.ceo/api/breeds/image/random'
     key = 'message'
